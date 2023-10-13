@@ -27,6 +27,8 @@ String_equals:
 	str x30, [sp, #-16]!
 	mov x29, sp		// setting stack frame
 	
+	mov x19, #1			// sets counter (x19) to 1
+	
 	mov x0, x1			// moves string address in x1 (first string) to x0
 	bl	String_length	// branch and link to function String_length
 	mov x25, x0			// moves value in x0 (string length of s1) to x25
@@ -39,17 +41,40 @@ String_equals:
 	bne	false			// if the lengths are not equal, branches to false
 
 	ldrb w21, [x1]		// gets a byte from the first string and loads it into w21
+	
+	cmp w21, #96		// compares w21 to 96 (ASCII value a)
+	blt	cont			// if char is already uppercase, jump to cont
+
+	sub w21, w21, #32	// else, turns the lowercase character uppercase
+	
+cont:
 	ldrb w22, [x2]		// gets a byte from the second string and loads it into w22
 	
-	mov x19, #1			// sets counter (x19) to 1
+	cmp w22, #96		// compares w22 to 96 (ASCII value a)
+	blt	loop			// if char is already uppercase, jump to loop
+
+	sub w22, w22, #32	// else, turns the lowercase character uppercase
 	
 loop:
 	cmp w21, w22		// compares the two bytes
 	bne false			// if w21 and w22 are not equal, branches to false
 	
 	ldrb w21, [x1], #1	// gets a byte from the pointer
+	
+	cmp w21, #96		// compares w21 to 96 (ASCII value a)
+	blt	cont2			// if char is already uppercase, jump to cont
+
+	sub w21, w21, #32	// else, turns the lowercase character uppercase
+	
+cont2:
 	ldrb w22, [x2], #1	// gets a byte from the pointer
 	
+	cmp w22, #96		// compares w22 to 96 (ASCII value a)
+	blt	cont3			// if char is already uppercase, jump to cont3
+
+	sub w22, w22, #32	// else, turns the lowercase character uppercase
+	
+cont3:
 	cmp x19, x25		// compares counter to string length
 	beq true			// if equal, branches to true
 	
@@ -80,3 +105,4 @@ exit:
 	ldr x19, [sp], #16
 	
 	ret	// returns to calling function
+	
