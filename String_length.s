@@ -1,4 +1,4 @@
-//@ Subroutine String_Length: Provided a pointer to a null terminated string, String_Length
+//@ Subroutine String_length: Provided a pointer to a null terminated string, String_length
 //@							  will return the length of the string in X0
 //@ X0: Must point to a null terminated string
 //@ LR: Must contain the return address
