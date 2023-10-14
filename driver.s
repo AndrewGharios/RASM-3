@@ -11,6 +11,8 @@ szS1S1Equals:		.asciz "\nString_equals(s1,s1) = "
 szS1S3EqualsIgn:	.asciz "\nString_equalsIgnoreCase(s1,s3) = "
 szS1S2EqualsIgn:	.asciz "\nString_equalsIgnoreCase(s1,s2) = "
 szCharAt:			.asciz "\nString_charAt(s2,4) = "
+szSubstring1:		.asciz "\nString_substring_1(s3,4,14) = "
+szSubstring2:		.asciz "\nString_substring_2(s3,7) = "
 
 //temp
 szTrue:		.asciz "TRUE"
@@ -108,6 +110,13 @@ _start:
 	ldr x0, =szChar		// loads address of szChar into x0
 	bl	putch			// branch and link to function putch
 	
+// ========================== String_substring_2 ========================== //
+	ldr x0, =szSubstring2	// loads address of szSubstring2 into x0
+	bl	putstring			// branch and link to function putstring
+	
+	ldr x0, =szS3			// loads address of szS3 into x0
+	mov x1, #7				// moves the value 7 into x1
+	bl	String_substring_2	// branch and link to function String_substring_2
 
 	
 exit:

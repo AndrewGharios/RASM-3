@@ -33,6 +33,7 @@ String_charAt:
 	//cmp x0, x1		// comparing string length to index
 	//blt err				// if string length is less than index, branch to error
 	
+	add x1, x1, #1		// x1 = x1 + 1
 	mov x19, #0			// setting counter to 0
 	
 	//mov x0, x20
