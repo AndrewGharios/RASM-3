@@ -1,6 +1,6 @@
-//@ Subroutine String_equals: Provided a pointer to two strings, String_equals 
-//							  will return whether or not the two strings are 
-//							  equal. A boolean (1 or 0) will be returned.
+//@ Subroutine String_equalsIgnoreCase: Provided a pointer to two strings, String_equals 
+//							  			will return whether or not the two strings are 
+//							  			equal. A boolean (1 or 0) will be returned.
 //@ X1: Must point to the first string 
 //@ X2: Must point to the second string
 //@ LR: Must contain the return address
@@ -8,10 +8,10 @@
 //@ X0 is not preserved.
 
 	.data
-	.global String_equals
+	.global String_equalsIgnoreCase
 	.text
 	
-String_equals:
+String_equalsIgnoreCase:
 	// preserving registers x19-x30 (AAPCS)
 	str x19, [sp, #-16]!
 	str x20, [sp, #-16]!
@@ -41,15 +41,40 @@ String_equals:
 	bne	false			// if the lengths are not equal, branches to false
 
 	ldrb w21, [x1]		// gets a byte from the first string and loads it into w21
+	
+	cmp w21, #96		// compares w21 to 96 (ASCII value a)
+	blt	cont			// if char is already uppercase, jump to cont
+
+	sub w21, w21, #32	// else, turns the lowercase character uppercase
+	
+cont:
 	ldrb w22, [x2]		// gets a byte from the second string and loads it into w22
+	
+	cmp w22, #96		// compares w22 to 96 (ASCII value a)
+	blt	loop			// if char is already uppercase, jump to loop
+
+	sub w22, w22, #32	// else, turns the lowercase character uppercase
 	
 loop:
 	cmp w21, w22		// compares the two bytes
 	bne false			// if w21 and w22 are not equal, branches to false
 	
 	ldrb w21, [x1], #1	// gets a byte from the pointer
+	
+	cmp w21, #96		// compares w21 to 96 (ASCII value a)
+	blt	cont2			// if char is already uppercase, jump to cont
+
+	sub w21, w21, #32	// else, turns the lowercase character uppercase
+	
+cont2:
 	ldrb w22, [x2], #1	// gets a byte from the pointer
 	
+	cmp w22, #96		// compares w22 to 96 (ASCII value a)
+	blt	cont3			// if char is already uppercase, jump to cont3
+
+	sub w22, w22, #32	// else, turns the lowercase character uppercase
+	
+cont3:
 	cmp x19, x25		// compares counter to string length
 	beq true			// if equal, branches to true
 	

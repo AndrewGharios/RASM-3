@@ -2,7 +2,7 @@
 //@						  representation of the byte in X0 (TRUE or FALSE)
 //@ X0: Must point to a byte
 //@ LR: Must contain the return address
-//@ All AAPCS required registers are preserved, r19-r29 and SP.
+//@ All AAPCS required registers are preserved, r19-r30.
 //@ X0 is not preserved.
 
 	.data
