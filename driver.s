@@ -4,6 +4,8 @@ szS2:	.asciz	"Green eggs and ham."
 szS3:	.asciz	"cat in the hat."
 
 // used in output
+szSQuote:			.asciz "\'"
+szDQuote:			.asciz "\""
 szS1Length:			.asciz "s1.length() = "
 szS2Length:			.asciz "\ns2.length() = "
 szS3Length:			.asciz "\ns3.length() = "
@@ -14,9 +16,9 @@ szS1S3Equals:		.asciz "\nString_equals(s1,s3) = "
 szS1S1Equals:		.asciz "\nString_equals(s1,s1) = "
 szS1S3EqualsIgn:	.asciz "\nString_equalsIgnoreCase(s1,s3) = "
 szS1S2EqualsIgn:	.asciz "\nString_equalsIgnoreCase(s1,s2) = "
-szCharAt:			.asciz "\nString_charAt(s2,4) = "
-szSubstring1:		.asciz "\nString_substring_1(s3,4,14) = "
-szSubstring2:		.asciz "\nString_substring_2(s3,7) = "
+szCharAt:			.asciz "\nString_charAt(s2,4) = \'"
+szSubstring1:		.asciz "\nString_substring_1(s3,4,14) = \""
+szSubstring2:		.asciz "\nString_substring_2(s3,7) = \""
 szStartsWith1:		.asciz "\nString_startsWith_1(s1,11,\"hat.\") = "
 szStartsWith2:		.asciz "\nString_startsWith_1(s1,\"Cat\") = "
 szEndsWith:			.asciz "\nString_endsWith(s1,\"in the hat.\") = "
@@ -153,6 +155,9 @@ _start:
 	ldr x0, =szChar		// loads address of szChar into x0
 	bl	putch			// branch and link to function putch
 	
+	ldr x0, =szSQuote	// loads address of szSQuote into x0
+	bl	putch			// branch and link to function putch
+	
 	ldr x0, =chEndl		// loads address of chEndl into x0
 	bl  putch			// branch and link function putch
 	
@@ -165,6 +170,9 @@ _start:
 	mov x2, #14				// moves the value 14 into x2
 	bl	String_substring_1	// branch and link to function String_substring_2
 	
+	ldr x0, =szDQuote	// loads address of szDQuote into x0
+	bl	putch			// branch and link to function putch
+	
 // ========================== String_substring_2 ========================== //
 	ldr x0, =szSubstring2	// loads address of szSubstring2 into x0
 	bl	putstring			// branch and link to function putstring
@@ -172,6 +180,9 @@ _start:
 	ldr x0, =szS3			// loads address of szS3 into x0
 	mov x1, #7				// moves the value 7 into x1
 	bl	String_substring_2	// branch and link to function String_substring_2
+	
+	ldr x0, =szDQuote	// loads address of szDQuote into x0
+	bl	putch			// branch and link to function putch
 	
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
@@ -204,6 +215,8 @@ _start:
 	
 	ldr x0, =szS1			// loads address of szS1 into x0
 	ldr x1,	=szInTheHat		// loads address of szInTheHat into x1
+	
+	bl String_endsWith		// branch and link to function String_endsWith
 	
 	ldr x0, =chEndl		// loads address of chEndl into x0
 	bl  putch			// branch and link function putch
