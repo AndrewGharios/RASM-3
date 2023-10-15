@@ -371,7 +371,8 @@ _start:
 	ldr	x2, =chReplaceWith	// loads address of chReplaceWith into x2
 	bl	String_replace		// branch to String_replace
 
-	ldr	x1, =szS1			// loads address of szS1 into x0
+	//S/O NATASHA for the beautiful String_copy function!!!
+ 	ldr	x1, =szS1			// loads address of szS1 into x0
 	bl	String_copy			// branch and link to function String_copy
 
 	ldr	x0, =szS1			// loads address of szS1 into x0
