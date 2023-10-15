@@ -86,7 +86,7 @@ cont3:
 	b loop
 
 true:
-	ldr x0, =szTrue
+	ldr x0, =szTrue		
 	bl	putstring
 	b exit
 

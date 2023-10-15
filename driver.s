@@ -3,9 +3,13 @@ szS1:	.asciz	"Cat in the hat."
 szS2:	.asciz	"Green eggs and ham."
 szS3:	.asciz	"cat in the hat."
 
+// used in output
 szS1Length:			.asciz "s1.length() = "
 szS2Length:			.asciz "\ns2.length() = "
 szS3Length:			.asciz "\ns3.length() = "
+szCopyLine1:		.asciz "\ns4 = String_copy(s1)"
+szCopyLine2:		.asciz "\ns1 = "
+szCopyLine3:		.asciz "\ns4 = "
 szS1S3Equals:		.asciz "\nString_equals(s1,s3) = "
 szS1S1Equals:		.asciz "\nString_equals(s1,s1) = "
 szS1S3EqualsIgn:	.asciz "\nString_equalsIgnoreCase(s1,s3) = "
@@ -14,12 +18,8 @@ szCharAt:			.asciz "\nString_charAt(s2,4) = "
 szSubstring1:		.asciz "\nString_substring_1(s3,4,14) = "
 szSubstring2:		.asciz "\nString_substring_2(s3,7) = "
 
-//temp
-szTrue:		.asciz "TRUE"
-szFalse:	.asciz "FALSE"
-
+szS4:		.skip 30
 szChar:		.skip 1
-szBool:		.skip 1
 szSkip:		.skip 20
 chEndl:		.byte 10
 
@@ -93,18 +93,35 @@ _start:
 	ldr x0, =szS1S3EqualsIgn	// loads address of szS1S3EqualsIgn into x0
 	bl	putstring				// branch and link function putstring
 	
-	ldr x1,	=szS1
-	ldr x2, =szS3
-	bl	String_equalsIgnoreCase
+	ldr x1,	=szS1				// loads address of szS1 into x0
+	ldr x2, =szS3				// loads address of szS3 into x0
+	bl	String_equalsIgnoreCase	// branch and link to function String_equalsIgnoreCase
 	
 // -------------------------- 	  szS1 and szS2		-------------------------- //
 	ldr x0, =szS1S2EqualsIgn	// loads address of szS1S2EqualsIgn into x0
 	bl	putstring				// branch and link function putstring
 	
-	ldr x1,	=szS1
-	ldr x2, =szS2
-	bl	String_equalsIgnoreCase
+	ldr x1,	=szS1				// loads address of szS1 into x0
+	ldr x2, =szS2				// loads address of szS2 into x0
+	bl	String_equalsIgnoreCase // branch and link to function String_equalsIgnoreCase
 	
+// ========================== String_copy ========================== //
+	ldr x0, =szCopyLine1	// loads address of szCopyLine1 into x0
+	bl	putstring			// branch and link to function putstring
+	ldr x0, =szS1			// loads address of szS1 into x0
+	ldr x1, =szS4			// loads address of szS4 into x0
+	bl	String_copy			// branch and link to function String_copy
+	
+	ldr x0, =szCopyLine2	// loads address of szCopyLine2 into x0
+	bl	putstring			// branch and link to function putstring
+	ldr x0, =szS1			// loads address of szS1 into x0
+	bl 	putstring			// branch and link to function putstring
+
+	ldr x0, =szCopyLine3	// loads address of szCopyLine3 into x0
+	bl	putstring			// branch and link to function putstring
+	ldr x0, =szS4			// loads address of szS1 into x0
+	bl 	putstring			// branch and link to function putstring
+
 // ========================== String_charAt ========================== //
 	ldr x0, =szCharAt	// loads address of szCharAt into x0
 	bl	putstring		// branch and link to function putstring
