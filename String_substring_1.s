@@ -1,8 +1,9 @@
-//@ Subroutine String_substring_2: Provided a pointer to a string, and an integer n, 
-//							  	   String_substring_2 will return the substring of that 
-//@								   string starting from the nth index.
+//@ Subroutine String_substring_1: Provided a pointer to a string, and 2 integers n and m, 
+//							  	   String_substring_1 will return the substring of that 
+//@								   string starting from the nth index to the mth index.
 //@ X0: Must point to the string
 //@ X1: Must contain an integer n
+//@ X2: Must contain an integer m
 //@ LR: Must contain the return address
 //@ All AAPCS required registers are preserved, r19-r30.
 //@ X0 is not preserved.
@@ -10,10 +11,10 @@
 	.data
 	ptrString:	.quad 0	// Stores pointer of allocated string
 	
-	.global String_substring_2
+	.global String_substring_1
 	.text
 	
-String_substring_2:
+String_substring_1:
 	// preserving registers x19-x30 (AAPCS)
 	str x19, [sp, #-16]!
 	str x20, [sp, #-16]!
@@ -29,14 +30,16 @@ String_substring_2:
 	str x30, [sp, #-16]!
 	mov x29, sp			// setting stack frame
 	
-	mov x2, x0			// copies string address to x2
-	bl	String_length	// branch and link to function String_length
+	mov x24, x0			// copies string address to x24
 	
-	sub x19, x0, x1		// substring length = string length - n
+	sub x19, x2, x1		// substring length = string length - top bound
+	mov x25, x19		// making a copy in x25
 	
 	// storing parameters for malloc
 	str x1, [sp, #-16]!
 	str x2, [sp, #-16]!
+	str x24, [sp, #-16]!
+	str x25, [sp, #-16]!
 	
 	add x19, x19, #1	// x19 = x19 + 1 (for null terminator)
 	mov x0, x19			// moves total bytes needed to x0 for malloc
@@ -46,30 +49,25 @@ String_substring_2:
 	str x0, [x21]		// stores address of allocated memory at ptrString
 	
 	// retrieving parameters after malloc
+	ldr x25, [sp], #16
+	ldr x24, [sp], #16
 	ldr x2, [sp], #16
 	ldr x1, [sp], #16
 	
 	ldr x19, =ptrString	// loads address of ptrString into x19
 	ldr x19, [x19]		// loads address pointed to by ptrString into x19
 	
-	mov x0, x2			// moves string address to x0
-	bl	String_length	// branch and link to function String_length
-	
-	sub x25, x0, x1 	// x25 = x0 - x1
-	
 	mov x23, #0			// initialized x21 (offset) to 0
 	
 loop:
-	ldrb w22, [x2, x1]		// loads byte from string at index x1 
+	ldrb w22, [x24, x1]		// loads byte from string at index x1 
 	strb w22, [x19, x23]	// stores byte into allocated memory address + offset
 	
 	add x1, x1, #1			// n = n + 1
 	add x23, x23, #1		// offset = offset + 1
 	
-	sub x25, x25, #1		// substring length = substring length - 1
-	
-	cmp x25, #0				// compares substring length to 0
-	bgt loop				// if greater than 0, loop, else continue
+	cmp x23, x25			// compares substring length to x25
+	blt loop				// if greater than 0, loop, else continue
 	
 endloop:
 	ldr x0, =ptrString		// loads address of ptrString into X0

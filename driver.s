@@ -110,6 +110,15 @@ _start:
 	ldr x0, =szChar		// loads address of szChar into x0
 	bl	putch			// branch and link to function putch
 	
+// ========================== String_substring_1 ========================== //
+	ldr x0, =szSubstring1	// loads address of szSubstring1 into x0
+	bl	putstring			// branch and link to function putstring
+	
+	ldr x0, =szS3			// loads address of szS3 into x0
+	mov x1, #4				// moves the value 7 into x1
+	mov x2, #14				// moves the value 14 into x2
+	bl	String_substring_1	// branch and link to function String_substring_2
+	
 // ========================== String_substring_2 ========================== //
 	ldr x0, =szSubstring2	// loads address of szSubstring2 into x0
 	bl	putstring			// branch and link to function putstring
