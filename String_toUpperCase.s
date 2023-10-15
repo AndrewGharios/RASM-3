@@ -1,4 +1,4 @@
-//@ Subroutine String_toUpperCase: Provided a string, this function will make the entire string lowercase
+//@ Subroutine String_toUpperCase: Provided a string, this function will make the entire string uppercase
 //@							  
 //@ X0: Must point to a null terminated string
 //@ LR: Must contain the return address
