@@ -193,6 +193,8 @@ _start:
 	ldr x0, =szS1			// loads address of szS1 into x0
 	ldr x1,	=szCat			// loads address of szCat into x1
 	
+	bl String_startsWith_2	// branch and link to function String_startsWith_2
+	
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
 
@@ -202,6 +204,9 @@ _start:
 	
 	ldr x0, =szS1			// loads address of szS1 into x0
 	ldr x1,	=szInTheHat		// loads address of szInTheHat into x1
+	
+	ldr x0, =chEndl		// loads address of chEndl into x0
+	bl  putch			// branch and link function putch
 	
 exit:
 	mov x0, #0		// use 0 return code

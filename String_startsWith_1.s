@@ -49,7 +49,7 @@ mainLoop:
 	ldrb w24, [x22, x25]	// gets a byte from the pointer + offset
 
 	cmp	w23, w24		// compares the two bytes
-	bne false			// if w21 and w22 are not equal, branches to false
+	bne false			// if w23 and w24 are not equal, branches to false
 	
 	add x21, x21, #1	// x21 = x21 + 1
 	add x25, x25, #1	// x25 = x25 + 1
