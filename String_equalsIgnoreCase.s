@@ -1,6 +1,6 @@
 //@ Subroutine String_equalsIgnoreCase: Provided a pointer to two strings, String_equals 
 //							  			will return whether or not the two strings are 
-//							  			equal. A boolean (1 or 0) will be returned.
+//							  			equal. TRUE or FALSE will be printed.
 //@ X1: Must point to the first string 
 //@ X2: Must point to the second string
 //@ LR: Must contain the return address
@@ -8,6 +8,9 @@
 //@ X0 is not preserved.
 
 	.data
+szTrue:		.asciz "TRUE"
+szFalse:	.asciz "FALSE"
+	
 	.global String_equalsIgnoreCase
 	.text
 	
@@ -83,11 +86,13 @@ cont3:
 	b loop
 
 true:
-	mov x0, #1
+	ldr x0, =szTrue
+	bl	putstring
 	b exit
 
 false:
-	mov x0, #0
+	ldr x0, =szFalse
+	bl	putstring
 	
 exit:
 	// restoring preserved registers x19-x30 (AAPACS)

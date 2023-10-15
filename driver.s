@@ -72,28 +72,38 @@ _start:
 	bl  putch			// branch and link function putch
 	
 // ========================== String_equals ========================== //
+// -------------------- 	  szS1 and szS3		-------------------- //
 	ldr x0, =szS1S3Equals	// loads address of szS1S3Equals into x0
 	bl	putstring			// branch and link function putstring
 
 	ldr x1,	=szS1			// loads address of szS1 into x1
 	ldr x2, =szS3			// loads address of szS3 into x2
 	bl	String_equals		// branch and link function String_equals
-	//b	booltoasc			// branch and link function booltoasc
 	
-//temp
-	//cmp x0,	#1
-	//bne false
-	
-	//ldr x0,=szTrue
-	//bl putstring
-	//b exit
-	
-//false:
-	//ldr x0,=szFalse
-	//bl	putstring
-	
+// -------------------- 	  szS1 and szS1		-------------------- //
+	ldr x0, =szS1S1Equals	// loads address of szS1S3Equals into x0
+	bl	putstring			// branch and link function putstring
+
+	ldr x1,	=szS1			// loads address of szS1 into x1
+	ldr x2, =szS1			// loads address of szS3 into x2
+	bl	String_equals		// branch and link function String_equals
 	
 // ========================== String_equalsIgnoreCase ========================== //
+// -------------------------- 	  szS1 and szS3		-------------------------- //
+	ldr x0, =szS1S3EqualsIgn	// loads address of szS1S3EqualsIgn into x0
+	bl	putstring				// branch and link function putstring
+	
+	ldr x1,	=szS1
+	ldr x2, =szS3
+	bl	String_equalsIgnoreCase
+	
+// -------------------------- 	  szS1 and szS2		-------------------------- //
+	ldr x0, =szS1S2EqualsIgn	// loads address of szS1S2EqualsIgn into x0
+	bl	putstring				// branch and link function putstring
+	
+	ldr x1,	=szS1
+	ldr x2, =szS2
+	bl	String_equalsIgnoreCase
 	
 // ========================== String_charAt ========================== //
 	ldr x0, =szCharAt	// loads address of szCharAt into x0

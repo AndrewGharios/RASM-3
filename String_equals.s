@@ -8,6 +8,8 @@
 //@ X0 is not preserved.
 
 	.data
+szTrue:		.asciz "TRUE"
+szFalse:	.asciz "FALSE"
 	.global String_equals
 	.text
 	
@@ -58,11 +60,13 @@ loop:
 	b loop
 
 true:
-	mov x0, #1
+	ldr x0, =szTrue
+	bl	putstring
 	b exit
 
 false:
-	mov x0, #0
+	ldr x0, =szFalse
+	bl	putstring
 	
 exit:
 	// restoring preserved registers x19-x30 (AAPACS)
