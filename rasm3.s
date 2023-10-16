@@ -5,20 +5,22 @@
 // 			
 // Date: 10/19/2023
 
-
 .global _start // Provides program starting address
 
+	.equ MAX_BYTES, 21
 	.data 		// Data section
 //The main three strings used for all functions
-szS1:				.asciz	"Cat in the hat."
-szS2:				.asciz	"Green eggs and ham."
-szS3:				.asciz	"cat in the hat."
-szS4:				.skip 30
+szS1:				.skip	MAX_BYTES
+szS2:				.skip	MAX_BYTES
+szS3:				.skip	MAX_BYTES
+szS4:				.skip	MAX_BYTES
 
 
 //Strings for output format
 szHeader:			.asciz	"Names: Natasha Wu & Andrew Gharios\nProgram: rasm3.asm\nClass: CS 3B\nDate: 9/29/2023\n"
-szPrompt:			.asciz	"Enter 3 strings:\n"
+szPrompt1:			.asciz	"Enter 1st string: "
+szPrompt2:			.asciz	"Enter 2nd string: "
+szPrompt3:			.asciz	"Enter 3rd string: "
 szSQuote:			.asciz "\'"
 szDQuote:			.asciz "\""
 szS1Length:			.asciz "\ns1.length() = "
@@ -43,11 +45,11 @@ szIO3:				.asciz	"String_indexOf_3(s2,\"eggs\")= "
 szLIO1:				.asciz	"String_lastIndexOf_1(s2,\'g\') = "
 szLIO2:				.asciz	"String_lastIndexOf_2(s2,\'g\',6) = "
 szLIO3:				.asciz	"String_lastIndexOf_3(s2,\"egg\") = "
-szReplace:			.asciz	"String_replace(s1,\'a\',\'o\') = "
-szLower:			.asciz	"String_toLowerCase(s1) = "
-szUpper:			.asciz	"String_toUpperCase(s1) = "
-szConcat1:			.asciz	"String_concat(s1, \" \") = "
-szConcat2:			.asciz	"String_concat(s1, s2) = "
+szReplace:			.asciz	"String_replace(s1,\'a\',\'o\') = \""
+szLower:			.asciz	"String_toLowerCase(s1) = \""
+szUpper:			.asciz	"String_toUpperCase(s1) = \""
+szConcat1:			.asciz	"String_concat(s1, \" \") = \""
+szConcat2:			.asciz	"String_concat(s1, s2) = \""
 
 //Values to pass as parameters for functions
 szOutput: 			.skip 22
@@ -73,8 +75,33 @@ _start:
 	ldr x0,=szHeader  // Loads x0 with szHeaders address.
 	bl putstring 	  // Call putstring to print header.
 	
+	ldr x0, =chEndl			// loads address of chEndl into x0
+	bl  putch				// branch and link function putch
+	
 // ========================== User input ========================== //
-// TBA
+// -------------------------- 	  S1	-------------------------- //
+	ldr x0, =szPrompt1		// loads address of szPrompt1 into x0
+	bl	putstring			// branch and link function putstring
+	
+	ldr x0, =szS1			// loads address of szS1 into x0
+	mov x1, MAX_BYTES		// moves the value 21 into x1
+	bl	getstring			// branch and link function putstring
+	
+// -------------------------- 	  S2	-------------------------- //
+	ldr x0, =szPrompt2		// loads address of szPrompt2 into x0
+	bl	putstring			// branch and link function putstring
+	
+	ldr x0, =szS2			// loads address of szS2 into x0
+	mov x1, MAX_BYTES		// moves the value 21 into x1
+	bl	getstring			// branch and link function putstring
+	
+// -------------------------- 	  S3	-------------------------- //
+	ldr x0, =szPrompt3		// loads address of szPrompt3 into x0
+	bl	putstring			// branch and link function putstring
+	
+	ldr x0, =szS3			// loads address of szS3 into x0
+	mov x1, MAX_BYTES		// moves the value 21 into x1
+	bl	getstring			// branch and link function putstring
 
 // ========================== String_length ========================== //
 // -------------------------- 	  szS1		-------------------------- //
@@ -260,7 +287,8 @@ _start:
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
 
-
+	ldr	x0, =chEndl			// loads address of chEndl into x0
+	bl	putch				// branch to putch
 
 // ========================== String_indexOf_1 ========================== //
 	ldr	x0, =szIO1			// loads address of szIO1 into x0
@@ -310,6 +338,9 @@ _start:
 
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
+	
+	ldr	x0, =chEndl			// loads address of chEndl into x0
+	bl	putch				// branch to putch
 
 // ========================== String_lastIndexOf_1 ========================== //
 	ldr	x0, =szLIO1			// loads address of szLIO1 into x0
@@ -362,6 +393,9 @@ _start:
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
 	
+	ldr	x0, =chEndl			// loads address of chEndl into x0
+	bl	putch				// branch to putch
+	
 // ========================== String_replace ========================== //
 	ldr	x0, =szReplace		// loads address of szReplace into x0
 	bl	putstring			// branch to putstring
@@ -377,9 +411,15 @@ _start:
 
 	ldr	x0, =szS1			// loads address of szS1 into x0
 	bl	putstring			// branch to putstring
+	
+	ldr x0, =szDQuote		// loads address of szDQuote into x0
+	bl	putch				// branch and link to function putch
 
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
+	
+	ldr	x0, =chEndl			// loads address of chEndl into x0
+	bl	putch				// branch to putch
 
 // ========================== String_toLowerCase ========================== //
 	ldr	x0, =szLower		// loads address of szLower into x0
@@ -388,6 +428,9 @@ _start:
 	ldr	x0, =szS1			// loads address of szS1 into x0
 	bl	String_toLowerCase  // branch to String_toLowerCase
 	bl  putstring			// branch to putstring
+	
+	ldr x0, =szDQuote		// loads address of szDQuote into x0
+	bl	putch				// branch and link to function putch
 
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
@@ -403,9 +446,15 @@ _start:
 	
 	ldr x0,=szS1			// loads address of szS1 into x0
 	bl putstring			// branch to putstring
+	
+	ldr x0, =szDQuote		// loads address of szDQuote into x0
+	bl	putch				// branch and link to function putch
 
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
+	
+	ldr	x0, =chEndl			// loads address of chEndl into x0
+	bl	putch				// branch to putch
 	
 // ========================== String_concat ========================== //
 	ldr	x0, =szConcat1		// loads address of szConcat1 into x0
@@ -415,6 +464,9 @@ _start:
 	ldr	x1, =szSpace		// loads address of szSpace into x1
 	bl	String_concat
 	bl  putstring			// branch to putstring
+	
+	ldr x0, =szDQuote		// loads address of szDQuote into x0
+	bl	putch				// branch and link to function putch
 	
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
@@ -426,6 +478,9 @@ _start:
 	ldr	x1, =szS2			// loads address of szS2 into x1
 	bl	String_concat		// branch to String_concat
 	bl	putstring			// branch to putstring
+	
+	ldr x0, =szDQuote		// loads address of szDQuote into x0
+	bl	putch				// branch and link to function putch
 
 	ldr x0, =chEndl			// loads address of chEndl into x0
 	bl  putch				// branch and link function putch
